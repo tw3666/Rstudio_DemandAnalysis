@@ -1,0 +1,26 @@
+library(lubridate)
+library(zoo)
+library(xts)
+library(forecast)
+library(dplyr)
+
+df <- read.csv("C:/Users/aatwrigh/OneDrive - Hyster-Yale Group/Desktop/San Diego electricity demand challenge.csv")
+head(df)
+
+# When converting to date, we need to specify the format of the incoming character string the date is already formatted as.
+df$New.Date <- as.Date(df$New.Date, format = "%m/%d/%Y")
+str(df)
+
+# Now we can format the date as needed to be able to properly use the grouping function later.
+format(df$New.Date, "%Y-%m-%d")
+
+# Check the structure to make sure everything is correct.
+str(df)
+
+# Now we can group our rows by the New.Date column using the below:
+df_grouped <- df %>%
+  group_by(df$New.Date) %>%
+  summarise(total_rows = n(),
+            total_demand = sum(Demand, na.rm = TRUE))
+# We check our output to confirm everything looks correct.
+head(df_grouped)
