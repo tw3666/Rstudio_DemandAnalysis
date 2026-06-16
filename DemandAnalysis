@@ -17,10 +17,14 @@ format(df$New.Date, "%Y-%m-%d")
 # Check the structure to make sure everything is correct.
 str(df)
 
-# Now we can group our rows by the New.Date column using the below:
-df_grouped <- df %>%
-  group_by(df$New.Date) %>%
-  summarise(total_rows = n(),
-            total_demand = sum(Demand, na.rm = TRUE))
-# We check our output to confirm everything looks correct.
-head(df_grouped)
+# Now we group our New.Date by week using the floor_date function from the lubridate package
+df_wgroup <- df %>%
+  mutate(week_start = floor_date(df$New.Date, unit = "week")) %>%
+  group_by(week_start) %>%
+  summarise(total_rows = n(), total_demand = sum(Demand, na.rm = TRUE))
+head(df_wgroup)
+
+# Now we select the highest demand using the slice_max() function from the dplyr package
+df_wgroup %>% slice_max(total_demand)
+
+# This shows us that the highest demand week was 2022-09-04 with total demand of 560207
