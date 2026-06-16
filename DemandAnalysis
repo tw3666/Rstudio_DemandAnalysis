@@ -4,6 +4,7 @@ library(xts)
 library(forecast)
 library(dplyr)
 
+# Read the data into a data frame using the read.csv function which is built into R
 df <- read.csv("C:/Users/aatwrigh/OneDrive - Hyster-Yale Group/Desktop/San Diego electricity demand challenge.csv")
 head(df)
 
