@@ -29,3 +29,14 @@ head(df_wgroup)
 df_wgroup %>% slice_max(total_demand)
 
 # This shows us that the highest demand week was 2022-09-04 with total demand of 560207
+
+# Our goal in this section is to determine if the overall demand is increasing or decreasing over the entire time period of the data
+
+df_model <- lm(Demand ~ New.Date, data = df)
+summary(df_model)
+
+# We can plot our original model as below, but we see it is very crowded and noisy
+plot(df$New.Date, df$Demand, main="Demand by Date", xlab="Date", ylab="Demand")
+
+# We improve this by instead plotting our Demand by week, which give a more clear representation of the data trends
+plot(df_wgroup$week_start, df_wgroup$total_demand, main = "Demand by week", xlab = "Week", ylab = "Demand")
